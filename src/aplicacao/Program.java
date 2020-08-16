@@ -10,7 +10,7 @@ import model.entities.Reservation;
 public class Program {
 
 	public static void main(String[] args) throws ParseException {
-		// solução muito ruim = lógica na classe principal
+		// solução ruim = 
 
 		Locale.setDefault(Locale.US);
 		Scanner sc = new Scanner(System.in);
@@ -37,21 +37,15 @@ public class Program {
 			System.out.println("CheckOut Date (dd/MM/yyyy): ");
 			checkOut = sdf.parse(sc.next());
 
-			Date now = new Date();
-			if (checkIn.before(now) || checkOut.before(now)) {
-				System.out.println("Erro na reserva: Datas não podem ser anteriores a data atual!");
-			} else if (!checkOut.after(checkIn)) {
-				System.out.println("Erro na reserva: Data de checkOut não pode ser anterior a de checkIn!");
+			String error = reservation.updateDates(checkIn, checkOut); // atualiza a reserva
+			if (error != null) {
+				System.out.println("Erro na reserva: " + error);
 			} else {
-				reservation.updateDates(checkIn, checkOut); // atualiza a reserva
-				System.out.println("Reserva atualizada com sucesso!");
 				System.out.println("Reservation: " + reservation);
 			}
-
 		}
 
 		sc.close();
 
 	}
-
 }

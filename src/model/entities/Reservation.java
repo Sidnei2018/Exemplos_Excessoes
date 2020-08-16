@@ -9,7 +9,7 @@ public class Reservation {
 	private Integer roomNumber;
 	private Date checkIn;
 	private Date checkOut;
-	
+
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 	public Reservation(Integer roomNumber, Date checkIn, Date checkOut) {
@@ -33,29 +33,31 @@ public class Reservation {
 	public Date getCheckOut() {
 		return checkOut;
 	}
-	
+
 	public long duration() {
 		long diff = checkOut.getTime() - checkIn.getTime(); // diferenca entre datas em milissegundos
 		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-		
+
 	}
-	
-	public void updateDates(Date checkIn, Date checkOut) {
+
+	public String updateDates(Date checkIn, Date checkOut) {
+		Date now = new Date();
+		if (checkIn.before(now) || checkOut.before(now)) {
+			return "Datas não podem ser anteriores a data atual!";
+		}
+
+		if (!checkOut.after(checkIn)) {
+			return "Data de checkOut não pode ser anterior a de checkIn!";
+		}
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
+		return null;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Room "
-				+ roomNumber
-				+ ", checkIn: "
-				+ sdf.format(checkIn)
-				+ ", checkOut: "
-				+ sdf.format(checkOut)
-				+ ", "
-				+ duration()
-				+ " nigths";
+		return "Room " + roomNumber + ", checkIn: " + sdf.format(checkIn) + ", checkOut: " + sdf.format(checkOut) + ", "
+				+ duration() + " nigths";
 	}
-	
+
 }
